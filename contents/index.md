@@ -1,7 +1,7 @@
 ---
-layout: default
+layout: post
 ---
 
 ```
-TODO 
+some contents
 ```
