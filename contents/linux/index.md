@@ -1,0 +1,7 @@
+---
+layout: post
+---
+
+```
+some contents
+```
