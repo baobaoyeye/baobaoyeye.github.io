@@ -1,7 +1,3 @@
----
-layout: post
----
-
 ## glibc中alloc/free函数族的接口概览
 
 ## glibc的malloc模块实现原理

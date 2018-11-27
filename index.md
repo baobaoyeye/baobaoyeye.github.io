@@ -15,7 +15,7 @@ SEDA
 ## leveldb
 
 ---
-## cpp & c
+## c/c++
 
 ---
 ## Linux
