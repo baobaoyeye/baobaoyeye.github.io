@@ -2,29 +2,29 @@
 layout: default
 ---
 
-## [**papers**](/contents/papers, "分布式相关的论文阅读笔记")
+## papers
 - [**The Part-Time Parliament**](/contents/the_part-time_parliament)
 论文主要给出了分布式系统中的一致性算法——Paxos
 - [**SEDA**](/contents/seda)
 SEDA
 
 ---
-## [**rocksdb**](/contents/rocksdb)
+## rocksdb
 
 ---
-## [**leveldb**](/contents/leveldb)
+## leveldb
 
 ---
-## [**c++**](/contents/cpp)
+## cpp & c
 
 ---
-## [**Linux**](/contents/linux)
+## Linux
 - [**对mmap的认识**](/contents/linux/mmap)  
 - [**glibc malloc 模块深入浅出**](/contents/linux/malloc)   
 - [**fopen fwrite fflush 深入浅出**](/contents/linux/fxxx)
 
 ---
-## [**tools**](/contents/tools)
+## tools
 - [**画图**](/contents/tools/draw)
 
 ---
