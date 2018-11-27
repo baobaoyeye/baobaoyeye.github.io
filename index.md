@@ -15,10 +15,10 @@ layout: default
 ##  [**c++**](/contents/cpp)
 ---
 ##  [**Linux**](/contents/linux)
-* [***对mmap的认识***](/contents/mmap)
-* [***glibc malloc 模块深入浅出***](contents/malloc)
-* [***fopen fwrite fflush 深入浅出***](contents/fxxx)
+* [***对mmap的认识***](/contents/linux/mmap)
+* [***glibc malloc 模块深入浅出***](contents/linux/malloc)
+* [***fopen fwrite fflush 深入浅出***](contents/linux/fxxx)
 ---
 ##  [**tools**](/contents/tools)
-* [***画图***](/contents/draw)
+* [***画图***](/contents/tools/draw)
 ---
