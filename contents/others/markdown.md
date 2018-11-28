@@ -35,13 +35,12 @@ private:
 * 加图片 记得用相对路径  
 ![img](../images/demo.png)
 
-### 4. 注脚
+* 注脚
+github 目前还不支持注脚，建议大家使用如下方式做注脚
+正文某处 [引用1][1] 正文又一处 [引用2][2] 正文再一处 [引用3][3].  
 
-使用 [^keyword] 表示注脚。
 
-这是一个注脚[^footnote]的样例。
 
-这是第二个注脚[^footnote2]的样例。
 
 ## 迁移
 
@@ -53,6 +52,6 @@ private:
 
 ## 迁移
 
-[^footnote]: 这是一个 *注脚* 的 **文本**。
-
-[^footnote2]: 这是另一个 *注脚* 的 **文本**。
+[1]: http://google.com/        "引用1"
+[2]: http://search.yahoo.com/  "引用2"
+[3]: http://search.msn.com/    "引用3"
