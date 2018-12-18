@@ -98,7 +98,7 @@ raft服务间通过rpc进行通信，一个基本的一致性算法，需要两�
 
 server会重试rpc，如果他们一段时间没有收到回复的话，并且为了高性能他们会并行发起rpc。
 #### 5.2、leader选举
-raft使用心跳机制触发leader选举，当服务启动的时候他们都是follower，只要有从candidate或者leader发起的有效的rpc被server收到，它就一直停留在follower状态。leader周期性的发送心跳
+raft使用心跳机制触发leader选举，当服务启动的时候他们都是follower，只要有从candidate或者leader发起的有效的rpc被server收到，它就一直停留在follower状态。为了维护权威leader周期性的发送心跳,通过不带log entry的 AppendEntry rpc完成心跳传输。如果一个follower在一段时间内（election timeout）没有接收到通信，然后它会假设没有可用的leader存在，开始一轮新的选举。开始一个选举，follower会增加它的current_term_no，并且改变自己的状态为candidate。它先给自己投一票，然后并发的发送RequestVote请求给集群中的其他server，
 #### 5.3、日志复制
 #### 5.4、安全
 ##### 5.4.1、选举限制
