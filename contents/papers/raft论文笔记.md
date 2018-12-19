@@ -98,8 +98,35 @@ raft服务间通过rpc进行通信，一个基本的一致性算法，需要两�
 
 server会重试rpc，如果他们一段时间没有收到回复的话，并且为了高性能他们会并行发起rpc。
 #### 5.2、leader选举
-raft使用心跳机制触发leader选举，当服务启动的时候他们都是follower，只要有从candidate或者leader发起的有效的rpc被server收到，它就一直停留在follower状态。为了维护权威leader周期性的发送心跳,通过不带log entry的 AppendEntry rpc完成心跳传输。如果一个follower在一段时间内（election timeout）没有接收到通信，然后它会假设没有可用的leader存在，开始一轮新的选举。开始一个选举，follower会增加它的current_term_no，并且改变自己的状态为candidate。它先给自己投一票，然后并发的发送RequestVote请求给集群中的其他server，
+raft使用心跳机制触发leader选举，当服务启动的时候他们都是follower，只要有从candidate或者leader发起的有效的rpc被server收到，它就一直停留在follower状态。为了维护权威leader周期性的发送心跳,通过不带log entry的 AppendEntry rpc完成心跳传输。如果一个follower在一段时间内（election timeout）没有接收到通信，然后它会假设没有可用的leader存在，开始一轮新的选举。开始一个选举，follower会增加它的current_term_no，并且改变自己的状态为candidate。它先给自己投一票，然后并发的发送RequestVote请求给集群中的其他server，一个candidate会在下面3个事情有一个发生的时候退出这个状态
+* 它赢得选举了（赢了）
+* 另一个candidate确认自己是leader（败了）
+* 过了一段时间但是没有leader被选出来（平票）
+
+如果一个candidate在同一个term中赢得了集群中大多数机器的选票，我们认为这个candidate赢得了选举。在给定的term中某个机器最多只能给一个candidate投票，基于先到先服务的原则（5.4还有个附加条件）
+大多数规则保证在特定的term中最多有一个candidate能够赢得选举，当一个candidate赢得了选举，他会成为leader。随后它会发心跳给所有其他的server，确认自己的权威，并且阻止新的选举。
+
+在等选票的过程中，candidate可能会收到一个来自于声称自己是leader的其他server发送来的AppendEntry RPC请求，
+* 如果这个leader的term号大于等于这个candidate的term，这个candidate会承认leader的合法性并且返回follower状态。
+* 如果这个leader的term号小于这个candidate的term，那么这个candidate拒绝这个rpc并且继续candidate状态。
+
+第三种可能就是这个candidate没赢也没输：如果同一个时间有多个candidate产生，票会被切分。所有candidate都没有得到大多数选票。当这种情况发生，每个candidate会超时并且开始一个新的选举增加它自己的term号并且初始化另一轮RequestVote rpc。如果没有附加的限制分票（split vote）行为可能会持续进行下去。
+
+raft通过随机超时保证极少会出现选举分票，即使出现也可以很快恢复。
+为了阻止最初的分票，选举超时随机从一个小区间选（150-300ms）。通过这个方法可以分散server的超时时长，大多数的case中只有一个server会超时，它赢得选举并且在其他server都没超时前发送心跳。
+相同的机制去处理分票，一个candidate在发起一个新的选举时会重置一个新的随机超时时间。并且在开始下一次选举前它等待这个超时时间的到来。这会减少在新一轮选举中分票的可能性。
+
+对于选举，作者也想过用排序的方式，每个candidate分的唯一个一个位置，选举过程如果位置靠前的candidate会更容易当选，但是这也会出现可用性问题，当出现排序靠前的candidate失败的时候，排序靠后的candidate需要等待一个超时时间然后发起一个新的选举。他们觉得这些方法都有各种各样的问题，最后选了易懂易实现的随机超时的方法来选leader。
+
 #### 5.3、日志复制
+当leader被选出来以后，他开始服务于client，每个client的请求包含一个要被复制状态机执行的命令。leader 追加这个命令作为它自己log的一个新entry，然后并行的发AppendEntry RPC到其他的server上，当这个entry被安全的复制了，leader应用这个entry到他的状态机中并且返回执行结果给client。如果followers crash或者比较卡，又或者丢包了，leader会无限期的发AppendEntry rpc（尽管这时候它已经相应了client），直到所有的follower最终保存了所有的log entry。
+
+日志的组织如下图，每一个Log由顺序编号的entry组成，每个entry中包含一个创建它时候的term对应的term号和一个状态机执行的命令。如果一个entry被应用到状态机中会被认为是commited。
+log entry中的term号用来发现log间的冲突。每个log entry包含一个整数索引，表示它在log中的位置。
+![log](../../images/raft/log.png)
+
+raft保证所有commited entry都是持久的。并且最终会被所有可用的状态机执行。一个log entry在创建它的那个leader复制它到集群中的大多数server以后会被提交。
+
 #### 5.4、安全
 ##### 5.4.1、选举限制
 ##### 5.4.2、来自先前term的提交
