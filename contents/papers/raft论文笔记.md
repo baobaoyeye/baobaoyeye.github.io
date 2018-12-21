@@ -125,8 +125,18 @@ raft通过随机超时保证极少会出现选举分票，即使出现也可以
 log entry中的term号用来发现log间的冲突。每个log entry包含一个整数索引，表示它在log中的位置。
 ![log](../../images/raft/log.png)
 
-raft保证所有commited entry都是持久的。并且最终会被所有可用的状态机执行。一个log entry在创建它的那个leader复制它到集群中的大多数server以后会被提交。
+raft保证所有commited entry都是持久的。并且最终会被所有可用的状态机执行。一个log entry在创建它的那个leader复制它到集群中的大多数server以后才会被提交。如上图中的entry[7],也会提交当前leader log中所有之前的entry，包括前面leader遗留下来的entries
 
+leader保有着所有commited entry中最大的index，并且在后面的AppendEntry rpc（包括心跳）过程中会携带这个index，因此其他的server最终都会发现。当一个follower发现一个log entry已经被提交了，它会按照log index的顺序依次把对应entry的命令应用到状态机。
+
+raft log机制使其更安全，这个不同于一般的server log。
+
+日志一致属性：
+条件：*如果*在不同log中的两个entry，他们具有相同的index和term
+* *那么*这**两个entry**存储相同的命令
+* *那么*在**不同的log**间所有前面的entry都是一样的
+第一个属性依赖一个事实：leader在一个term中对于一个给定的log index最多只能创建一个entry，并且entry永远也不会修改他们在log中的位置。
+第二个属性通过AppendEntry做简单的一致性检查就可以保证。当发送一个AppendEntry RPC的时候，leader会发送一个即将会出现的entry的index和term给其他的server，
 #### 5.4、安全
 ##### 5.4.1、选举限制
 ##### 5.4.2、来自先前term的提交

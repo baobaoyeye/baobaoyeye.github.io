@@ -1,11 +1,11 @@
-* [概述](#概述)
-   * [关于文档TOC的生成](#关于文档toc的生成)
-   * [关于标题的建议](#关于标题的建议)
-* [Title1](#title1)
-   * [Title 2](#title-2)
-      * [Title 3](#title-3)
-         * [Title 4](#title-4)
-   * [建议统一的写法](#建议统一的写法)
+- [概述](#概述)
+  - [关于文档TOC的生成](#关于文档toc的生成)
+  - [关于标题的建议](#关于标题的建议)
+- [Title1](#title1)
+  - [Title 2](#title-2)
+    - [Title 3](#title-3)
+      - [Title 4](#title-4)
+  - [建议统一的写法](#建议统一的写法)
 
 概述
 ===
@@ -46,6 +46,16 @@ Title 2
 * unordered list item 1
 * unordered list item 2
 * unordered list item 3
+
+*斜体*
+```
+*斜体* or _斜体_
+```
+__粗体__
+
+```
+**粗体** or __粗体__
+```
 
 建议统一的写法
 -----------
