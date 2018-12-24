@@ -24,12 +24,10 @@ raft和存在的一致性算法有点相似，但他有些新特性：
 复制状态机用来解决一系列分布式系统中失败恢复的问题。
 复制状态机典型实现是复制日志，如图一：
 每个服务存储一个包含一系列命令的日志，他们的状态机顺序的执行。每个日志在相同顺序上包含相同的命令，因此每个状态机处理相同命令序列。
-因为状态机是确定的，因此计算的状态和输出都是相同。
+因为状态机是确定的，则计算的状态和输出都是相同。
 
-保证复制日志的一致性是一致性算法的工作。服务上的一致性模块从客户端接收命令并且把他们加入到日志中。一致性模块和其他服务上的一致性模块通信，
-来确认每个日志最终以相同的顺序包含相同的请求，即使有些服务失败。
-
-一旦命令被正确的复制，每个服务的状态机以log顺序处理他们，并且输出返回给客户端。
+一致性算法的任务保证复制日志的一致性，server上的一致性模块接收客户端命令，并且把它们加入到log中。不同server间的一致性模块相互通信，来确认每个日志最终以相同的顺序包含相同的请求，即使有些服务失败。
+一旦命令被正确的复制，每个服务的状态机以log顺序处理他们，并且把命令执行的输出返回给client。
 
 这样服务就有一个简单，高可用的状态机。
 
@@ -75,18 +73,22 @@ raft分解一致性问题到3个相对独立的子问题
 
 #### 5.1、raft基础
 一个raft集群包含数个server，5个是一个典型的数量，可以容忍两个服务失败。
-在任何一个时间上，一个server都有3个状态：leader、follower、candidata （候选人）
-正常情况下，会有一个leader其他全部是follower。
-follower是被动的，follower除了简单答复leader和candidate的请求以外，不处理任何请求。
-leader处理所有client的所有请求，如果client的请求打到follower上，follower负责把请求重定向到leader，candidate负责选出一个新的leader
+在任何一个时间点，一个server都可能会是下面是下面3个状态之一：
+* leader
+* follower
+* candidata （候选人）
+
+正常情况下，会有一个leader, 其他全部是follower。
+follower是被动的，除了简单答复leader和candidate的请求以外，不处理任何请求。
+leader处理client的所有请求，如果client的请求打到follower上，follower负责把请求重定向到leader，candidate负责选出一个新的leader
 ![roles](../../images/raft/roles.png)
 
-raft把时间切成一段一段的，每段叫做一个term，每个trem开始于一个新的选举:
-* 成功的选举（一个或多个candidate企图成为leader,没出现平票），leader管理整个集群，直到term结束
-* 失败的选举（出现平票），这时候没有选出leader，term就结束了   
+raft把时间切成一段一段的，每段叫做一个term，term是连续的整数编号的。每个term开始于一个新的选举:
+* 成功选举（一个或多个candidate企图成为leader,没出现平票），leader管理整个集群，直到term结束
+* 失败选举（出现平票），这时候没有选出leader，term就结束了
 raft确定一个term中最多一个leader
 ![term](../../images/raft/term.png)
-term是连续的整数编号的。
+
 不同的server观察到的term间转换可能发生在不同的时时间，在某些场景下有个server有可能观察不到一个选举过程甚至整个term（s）。
 terms在raft中担任逻辑时钟的角色，并且terms允许servers观察到旧的leaders。
 每一个server保存current_term_no，term号随时间流逝单调增。
@@ -116,7 +118,9 @@ raft通过随机超时保证极少会出现选举分票，即使出现也可以
 为了阻止最初的分票，选举超时随机从一个小区间选（150-300ms）。通过这个方法可以分散server的超时时长，大多数的case中只有一个server会超时，它赢得选举并且在其他server都没超时前发送心跳。
 相同的机制去处理分票，一个candidate在发起一个新的选举时会重置一个新的随机超时时间。并且在开始下一次选举前它等待这个超时时间的到来。这会减少在新一轮选举中分票的可能性。
 
-对于选举，作者也想过用排序的方式，每个candidate分的唯一个一个位置，选举过程如果位置靠前的candidate会更容易当选，但是这也会出现可用性问题，当出现排序靠前的candidate失败的时候，排序靠后的candidate需要等待一个超时时间然后发起一个新的选举。他们觉得这些方法都有各种各样的问题，最后选了易懂易实现的随机超时的方法来选leader。
+对于选举，作者也想过用排序的方式，每个candidate分得唯一个位置，选举过程如果位置靠前的candidate会更容易当选，但是这也会出现可用性问题，当出现排序靠前的candidate失败的时候，排序靠后的candidate需要等待一个超时时间然后发起一个新的选举。
+
+也想了其他的一些方法，作者觉得这些方法都有各种各样的问题，最后选了易懂易实现的随机超时的方法来选leader。
 
 #### 5.3、日志复制
 当leader被选出来以后，他开始服务于client，每个client的请求包含一个要被复制状态机执行的命令。leader 追加这个命令作为它自己log的一个新entry，然后并行的发AppendEntry RPC到其他的server上，当这个entry被安全的复制了，leader应用这个entry到他的状态机中并且返回执行结果给client。如果followers crash或者比较卡，又或者丢包了，leader会无限期的发AppendEntry rpc（尽管这时候它已经相应了client），直到所有的follower最终保存了所有的log entry。
@@ -136,9 +140,37 @@ raft log机制使其更安全，这个不同于一般的server log。
 * *那么*这**两个entry**存储相同的命令
 * *那么*在**不同的log**间所有前面的entry都是一样的
 第一个属性依赖一个事实：leader在一个term中对于一个给定的log index最多只能创建一个entry，并且entry永远也不会修改他们在log中的位置。
-第二个属性通过AppendEntry做简单的一致性检查就可以保证。当发送一个AppendEntry RPC的时候，leader会发送一个即将会出现的entry的index和term给其他的server，
+第二个属性通过AppendEntry做简单的一致性检查就可以保证。当发送一个AppendEntry RPC的时候，leader会发送一个即将会出现的entry的index和term给其他的server，如果follower发现在log中没有找到一个拥有相同index和term的entry，随后他会拒绝这个新来的entries。
+一致性检查实际上是一个归纳的步骤，日志初始空的状态满足日志一致属性，并且一致性检查在日志增长的时候保持日志一致属性。
+也就是，当AppendEntry 接口返回成功，意味着leader知道follower的log在通过新的entry时是和它自己的一样的。
+
+正常情况下AppendEntry一致性检查不会失败。然而当leader crash的时候能够导致一致不一致（老的leader可能没有全部复制他log中所有的entry）。这种不一致可能会因为一系列leader和follower crash而出现混乱。
+
+follower的log可能和新的leader不同，一个follower可能缺失一部分当前leader有的entries，也可能有一部分 当前leader没有的，或者这两种情况同时存在。 log中的缺失和多余entries可能跨多个term。
+
+如下图例子：
+![check](../../images/raft/check.png)
+当最上面的leader开始工作的时候，a-f这些follower可能会出现下面的任何一种情况。
+follower a,b 缺少entry
+follower c,d 有没提交的entry
+follower e,f 同时出现上面的两种情况，有部分缺失，有部分又多余。
+图中的f，可能场景是这样的：在term2 的时候它是leader，增加了4，5，6三个index的log entry但是还没来的及replicate 给其他follwer的时候，它挂了。随后它被迅速的拉起，又成为term3的leader，紧接着他又增加了7，8，9，10，11 五个index，在这个过程中term2和term3的entry没有一个来得及被commit，紧接着他又挂了，然后连续错过了4，5，6，7这4个term.
+
+在raft中，leader通过强制follower复制自己的log来处理前后不一致的情况。这就意味着follower的log中冲突的entry会被leader的log中的entry重写。
+为了保证folwer日志和leader自己的一致，leader必须找到它和follower都认可的最新的entry。删掉follower上比这个点更新的entries，并且leader自己这个点之后的所有entries都发送给follower。这些都发生在做一致性检查的AppendEntry RPC 响应中。leader维护一个 nextIndex[followers[i]],用来索引下一个要给某个followers[i]的log entry。在一个leader第一次work的时候，它会初始化所有nextIndex[followers[i]] 使其为当前所有entry中最新的下一个，上图中的（index:11）,如果一个follower的日志和leader的不一致，在下一次AppendEntry RPC中做的AppendEntry一致性检查就会失败。当leader得到一个来自follower的拒绝之后，leader会减小 nextIndex[followers[i]] 然后重试，最终一定会达到一个点，这个点能保证leader和follower是匹配的。当匹配之后AppendEntry 就会成功，删掉follower日志中所有冲突的entry并且追加来自leader日志中的entry。只要AppendEntry成功，那么follower和leader的日志就是一致的。在余下的term过程中，leader会继续做这些。
+
+这个协议可以优化缩小AppendEntries RPC 拒绝的次数。例如，当一个AppendEntries RPC请求被拒绝了，follower可以在响应中，带上冲突entry的term和它在这个term内的第一个index。通过这些信息，leader可以跨过那个term的所有冲突的entry；一个AppendEntries RPC 每个term粒度，下面所有冲突的entries。还是每个entry粒度。在实践中我们怀疑这个优化是否是必要的，首先失败是低概率的，并且通常冲突的entries并不是很多。
+
+有了这个机制，当leader当他单选的时候，不需要花费任何特殊的操作，来保持日志的一致。它只需要正常的操作，在AppendEntries的一致性检查失败的响应中log会自动转化。**一个leader永远都不需要删除或者重写它自己的log**
+
+只要server中的大多数活着，raft就能接受、复制、应用log entry。通常情况下经过一小轮RPC就能够复制一个log entry，并且在出现慢单节点不会影响整体的性能。
 #### 5.4、安全
+到目前为止，前面描述的这些机制不能够确切的保证每个状态机按照相同的顺序执行相同的命令。比如一个follower可能在leader正commit一些entry的过程中不可用了，随后它可能被选成了leader，并且重写这部分entry，导致一个结果就是不同的状态机可能执行不同的命令。
+这部分增加一个限制——谁可能被选成leader。
+这个限制条件保证leader对于任意给定的term包含所有在之前的term中就已经提交的entries。（leader完整特性）
 ##### 5.4.1、选举限制
+在任何基于leader的一致性算法中，leader必须存储所有的已提交log entries。有些一致性算法，在选leader的时候不限制它是否包含所有的已提交entires，这些算法存在附加机制去区分未提交的enties，并将其发送给新的leader。这个过程发生在选举阶段或者那之后的一小段时间。不幸的是，这样会有很大一坨很复杂的附加机制。raft使用一个简单的方法保证所有在前面的term中已经提交的entries出现在一个新的leader当选的那一刻。不需要传输这些entries到leader上。这就保证了log entries只有一个流向——从leader到followers。leader从来不会重写已经存在它log中的entries。
+除非一个candidate包含所有已经提交的entries，否则raft会使用投票的过程来组织它当选。为了当选candidate必须和集群中的大多数通信，这也就意味着任何已经提交的entries至少会存在于大多数中的一台server上。
 ##### 5.4.2、来自先前term的提交
 ##### 5.4.3、安全争论
 #### 5.5、follower和？？？？
@@ -156,7 +188,3 @@ raft log机制使其更安全，这个不同于一般的server log。
 #### 9.3、性能
 
 ### 10、相关工作
-
-### 11、结论
-
-### 12、感谢
