@@ -3,10 +3,12 @@ layout: default
 ---
 
 ## papers
-- [**The Part-Time Parliament**](/contents/the_part-time_parliament)
+- [**The Part-Time Parliament**](/contents/papers/the_part-time_parliament)
 论文主要给出了分布式系统中的一致性算法——Paxos
-- [**SEDA**](/contents/seda)
+- [**SEDA**](/contents/papers/seda)
 SEDA
+- [**raft**](/contents/papers/raft)
+Raft
 
 ---
 ## rocksdb
