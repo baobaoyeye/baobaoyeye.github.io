@@ -104,7 +104,7 @@ raft分解一致性问题到3个相对独立的子问题
 在任何一个时间点，一个server都可能会是下面是下面3个状态之一：
 * leader
 * follower
-* candidata （候选人）
+* candidate
 
 正常情况下，会有一个leader, 其他全部是follower。
 follower是被动的，除了简单答复leader和candidate的请求以外，不处理任何请求。
