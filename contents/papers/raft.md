@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: default
 ---
 
 Raft论文笔记
