@@ -4,15 +4,15 @@ layout: default
 
 ## papers
 - [**The Part-Time Parliament**](/contents/papers/the_part-time_parliament)
-论文主要给出了分布式系统中的一致性算法——Paxos
+Paxos——给出了分布式系统中的一致性算法
 - [**raft**](/contents/papers/raft)
-Raft
+Raft——一个易懂的分布式一致性算法
 - [**omid**](/contents/papers/omid)
 Omid
 - [**SEDA**](/contents/papers/seda)
 SEDA
 - [**Spanner**](/contents/papers/spanner)
-Spanner
+Spanner——Google的全球分布式数据库
 
 ---
 ## rocksdb
