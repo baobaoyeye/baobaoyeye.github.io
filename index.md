@@ -11,6 +11,8 @@ Raft
 Omid
 - [**SEDA**](/contents/papers/seda)
 SEDA
+- [**Spanner**](/contents/papers/spanner)
+Spanner
 
 ---
 ## rocksdb
