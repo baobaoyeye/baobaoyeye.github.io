@@ -25,6 +25,7 @@ Spanner
 
 ---
 ## Linux
+- [**有用的命令**](/contents/linux/power_cmds)
 - [**对mmap的认识**](/contents/linux/mmap)  
 - [**glibc malloc 模块深入浅出**](/contents/linux/malloc)   
 - [**fopen fwrite fflush 深入浅出**](/contents/linux/fxxx)

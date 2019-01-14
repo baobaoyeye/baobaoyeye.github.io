@@ -24,3 +24,10 @@ openssl-1.0.1e-57.el6.x86_64
 S.5....T.  d /usr/share/doc/openssl-1.0.1e/FAQ
 ```
 如果没有任何变更，则不会出现任何输出，只要输出即认为是不完整的
+
+lib*.so相关
+==========
+打印出当前缓存所保存的所有库的名字
+```
+# ldconfig -p | grep xxxx
+```
