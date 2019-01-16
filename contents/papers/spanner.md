@@ -36,6 +36,13 @@ Spanner是由**zone**集合组成，zone可以初略的类比为是一个bigtabl
 
 2.1、spanserver软件栈
 --------------------
+这部分关注spanserver的实现，说明我们如何在基于bigtable实现上层做的复制和分布式事务。下图展示这个软件栈。
+![spanserver](../../images/spanner/spanserver.png)
+在下面每个spanserver是由100-1000个叫tablet的数据结构实例组成。一个tablet雷士bigtable里面tablet的概念，那里面是一坨下面的映射关系：
+```
+（key:string, timestamp:int64）->string
+```
+和bigtable不同的是spanner分配时间戳给数据。这是一个让Spanner更像多版本数据库而不是kv存储的重要方式。一个tablet的状态保存在一个类似B树的文件集和一个写前日志中，所有这些都在一个叫Colossus的分布式文件系统中。
 
 2.2、目录和定位
 -------------
