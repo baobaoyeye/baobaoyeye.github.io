@@ -4,15 +4,17 @@ layout: default
 
 ## papers
 - [**The Part-Time Parliament**](/contents/papers/the_part-time_parliament)
-Paxos——给出了分布式系统中的一致性算法
+Paxos —— 分布式系统中的一致性算法
+- [**Paxos Made Simple**](/contents/papers/paxos_made_simple)
+Paxos —— 简装版
 - [**raft**](/contents/papers/raft)
-Raft——一个易懂的分布式一致性算法
+Raft —— 一个易懂的分布式一致性算法
 - [**omid**](/contents/papers/omid)
-Omid
+Omid —— 亚马逊的分布式事务实现
 - [**SEDA**](/contents/papers/seda)
 SEDA
 - [**Spanner**](/contents/papers/spanner)
-Spanner——Google的全球分布式数据库
+Spanner —— Google的全球分布式数据库
 
 ---
 ## rocksdb
