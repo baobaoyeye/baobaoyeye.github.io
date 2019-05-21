@@ -1,4 +1,4 @@
-title: tail -f time
+title: date | tail -f
 url: "https://baobaoyeye.github.io"
 baseurl: ""
 
