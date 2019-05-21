@@ -24,6 +24,7 @@ Spanner —— Google的全球分布式数据库
 
 ---
 ## c/c++
+- [**GCC/G++/CMAKE/Makefile**](/contents/cpp/gcc&cmake&makefile的常用知识点)
 
 ---
 ## Linux
