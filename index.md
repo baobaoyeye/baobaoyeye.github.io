@@ -34,6 +34,10 @@ Spanner —— Google的全球分布式数据库
 - [**fopen fwrite fflush 深入浅出**](/contents/linux/fxxx)
 
 ---
+## python
+- [**性能分析工具**](/contents/python/perf)
+
+---
 ## tools
 - [**画图**](/contents/tools/draw)
 
