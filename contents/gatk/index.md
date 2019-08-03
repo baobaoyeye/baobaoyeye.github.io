@@ -224,6 +224,8 @@ O=P-O-......-CH2 O   .
 -------
 * 四分体中非姐妹染色单体发生缠绕，交互一部分片段
 
+
+
 SNP是什么？
 ---------
 * single nucleotide polymorphism的缩写
