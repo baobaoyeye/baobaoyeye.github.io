@@ -43,6 +43,6 @@ Spanner —— Google的全球分布式数据库
 
 ---
 ## tools
-- [**画图**](/contents/tools/draw)
+- [**工具列表**](/contents/tools/list)
 
 ---
