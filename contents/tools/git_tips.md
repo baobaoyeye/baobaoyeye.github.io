@@ -1,3 +1,14 @@
+告诉git你是谁
+===========
+
+* 初始的git环境push前需要配置你的user.name和user.email
+
+```shell
+$ git config --global user.name "Your Name Here"
+$ git config --global user.email "Your Email Here"
+```
+
+
 cherry-pick相关技巧
 ==================
 
