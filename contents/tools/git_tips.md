@@ -25,7 +25,7 @@ Author: Somebody <example@a.b>
 Date: sometime
 ```
 
-1. 如果顺利，就会正常提交。结果：
+* 如果顺利，就会正常提交。结果：
 
 ```shell
 Finished one cherry-pick.
@@ -33,7 +33,7 @@ Finished one cherry-pick.
 # Your branch is ahead of 'origin/b2' by {x0} commits.
 ```
 
-2. 如果在cherry-pick 的过程中出现了冲突
+* 如果在cherry-pick 的过程中出现了冲突
 
 ```shell
 Automatic cherry-pick failed.  After resolving the conflicts,
@@ -43,7 +43,7 @@ and commit the result with:
         git commit -c {X1}
 ```
 
-3. 手工解决冲突
+* 手工解决冲突
 
 ```shell
 $ git status    # 看哪些文件出现冲突
