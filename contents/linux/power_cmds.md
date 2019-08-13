@@ -21,6 +21,7 @@ $ cat /proc/cpuinfo | grep 'processor' | wc -l  # 逻辑cpu数目
   * 否则逻辑cpu数目core数目的二倍
 
 * 通过```cat /proc/cpuinfo```看到的cpu信息举例如下
+
 ```sh
 ...
 processor	: 31           # 当前逻辑cpu的序号，从0开始
@@ -53,6 +54,7 @@ power management:
 查看CPU信息(1)
 ------------
 * 可以使用```lscpu```来查看cpu的信息，比较简洁明了，命令及结果如下：
+
 ```sh
 $ lscpu
 Architecture:          x86_64
