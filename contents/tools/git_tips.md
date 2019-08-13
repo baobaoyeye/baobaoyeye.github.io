@@ -11,14 +11,14 @@ $ git config --global user.name "Your Name Here"
 $ git config --global user.email "Your Email Here"
 ```
 
-cherry-pick相关技巧
-------------------
+cherry-pick
+-----------
 
-##Q1:##
+###Q1:###
 
 * 在本地 b1 分支上做了一个commit {X0}，把其放到本地b2分支
 
-##A1:##
+###A1:###
 
 * 基础命令
 
