@@ -1,5 +1,8 @@
+Git常用
+======
+
 告诉git你是谁
-===========
+-----------
 
 * 初始的git环境push前需要配置你的user.name和user.email
 
@@ -8,23 +11,22 @@ $ git config --global user.name "Your Name Here"
 $ git config --global user.email "Your Email Here"
 ```
 
-
 cherry-pick相关技巧
-==================
+------------------
 
-Q1:
---- 
+##Q1:##
 
 * 在本地 b1 分支上做了一个commit {X0}，把其放到本地b2分支
 
-A1:
----
+##A1:##
 
 * 基础命令
 
 ```shell
 $ git cherry-pick <commit id>
 ```
+
+* 举例
 
 ```shell
 $ git checkout b2
@@ -64,4 +66,4 @@ both modified:      dir/foo.c
 $ vim dir/foo.c  # 手动解决它。 
 $ git add dir/foo.c
 $ git commit -c {X1}
-```
+``` 
