@@ -9,7 +9,7 @@ $ dmidecode | more
 
 查看CPU信息(0)
 -------------
-```bash
+```sh
 $ cat /proc/cpuinfo |more  # 全部信息
 $ cat /proc/cpuinfo | grep 'physical id' | sort | uniq | wc -l  # 多少个物理CPU芯片
 $ cat /proc/cpuinfo | grep 'cpu cores' | sort | uniq  # 每个物理CPU芯片上core数目
@@ -20,8 +20,8 @@ $ cat /proc/cpuinfo | grep 'processor' | wc -l  # 逻辑cpu数目
   * 当为开启超线程的时候二者相等，
   * 否则逻辑cpu数目core数目的二倍
 
-通过```cat /proc/cpuinfo```看到的cpu信息举例如下
-```bash
+* 通过```cat /proc/cpuinfo```看到的cpu信息举例如下
+```sh
 ...
 processor	: 31           # 当前逻辑cpu的序号，从0开始
 vendor_id	: GenuineIntel # 制造商
@@ -53,7 +53,7 @@ power management:
 查看CPU信息(1)
 ------------
 * 可以使用```lscpu```来查看cpu的信息，比较简洁明了，命令及结果如下：
-```
+```sh
 $ lscpu
 Architecture:          x86_64
 CPU op-mode(s):        32-bit, 64-bit
