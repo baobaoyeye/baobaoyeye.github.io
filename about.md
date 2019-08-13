@@ -6,4 +6,10 @@ layout: default
 
 <img class="profile-picture" src="bao.png">
 
-美丽的个人介绍 [GitHub](https://github.com/baobaoyeye)
+* 工作经历
+  * 医渡云 now
+  * 美团 1Y
+  * 百度 3Y
+
+* github
+  * [GitHub](https://github.com/baobaoyeye)

@@ -3,6 +3,7 @@ url: "https://baobaoyeye.github.io"
 baseurl: ""
 
 markdown: kramdown
+highlighter: pygments
 
 tracking_id: #
 
