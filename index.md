@@ -42,7 +42,8 @@ Spanner —— Google的全球分布式数据库
 - [**性能分析工具**](/contents/python/perf)
 
 ---
-## tools
-- [**工具列表**](/contents/tools/list)
+## Tools
+- [**Git Tips**](/contents/tools/git_tips)
+- [**Other Tools List**](/contents/tools/list)
 
 ---
