@@ -2,7 +2,7 @@
 layout: default
 ---
 
-## papers
+## Papers
 - [**The Part-Time Parliament**](/contents/papers/the_part-time_parliament)
 Paxos —— 分布式系统中的一致性算法
 - [**Paxos Made Simple**](/contents/papers/paxos_made_simple)
@@ -17,29 +17,20 @@ SEDA
 Spanner —— Google的全球分布式数据库
 
 ---
-## gatk
-- [**gatk**](/contents/gatk/index)
+## Bioinformatics
+- [**gatk**](/contents/b13/index)
 
 ---
-## rocksdb
-
----
-## leveldb
-
----
-## c/c++
+## Languages
 - [**GCC/G++/CMAKE/Makefile**](/contents/cpp/gcc&cmake&makefile的常用知识点)
+- [**python性能分析工具**](/contents/python/perf)
 
 ---
 ## Linux
 - [**有用的命令**](/contents/linux/power_cmds)
-- [**对mmap的认识**](/contents/linux/mmap)  
-- [**glibc malloc 模块深入浅出**](/contents/linux/malloc)   
+- [**对mmap的认识**](/contents/linux/mmap)
+- [**glibc malloc 模块深入浅出**](/contents/linux/malloc)
 - [**fopen fwrite fflush 深入浅出**](/contents/linux/fxxx)
-
----
-## python
-- [**性能分析工具**](/contents/python/perf)
 
 ---
 ## Tools
