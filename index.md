@@ -23,15 +23,17 @@ Spanner —— Google的全球分布式数据库
 Infrastructure
 --------------
 
-- [**有用的项目**](/contents/inf/useful_projects.md)
-- [**ZMQ**](/contents/inf/zmq.md)
+- [**有用的项目**](/contents/inf/useful_projects)
+- [**ZMQ**](/contents/inf/zmq)
 
 ---
 
 Theory
 ------
 
-- [**CAP & BASE理论**](/contents/theory/cap_and_base.md)
+- [**CAP & BASE理论**](/contents/theory/cap_and_base)
+- [**辛普森悖论**](/contents/theory/simpson)
+- [**迪米特法则**](/contents/theory/LoD)
 
 ---
 
