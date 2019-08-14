@@ -16,3 +16,22 @@ layout: post
 
 ## [DBT-5](https://github.com/gauthier-voron/DBT-5)
 > Fork of the TPC-E implementation DBT-5
+
+消息队列
+-------
+
+## [rabbitmq](https://www.rabbitmq.com/)
+> RabbitMQ is the most widely deployed open source message broker.
+
+流式计算
+-------
+
+## [Apache Fluo](https://fluo.apache.org/)
+> Google Percolator的开源实现 
+> With Apache Fluo, users can set up workflows that execute cross node transactions when data changes. These workflows enable users to continuously join new data into large existing data sets without reprocessing all data. Apache Fluo is built on Apache Accumulo.
+
+通信
+----
+
+## [Apache Thrift](http://thrift.apache.org/)
+> The Apache Thrift software framework, for scalable cross-language services development, combines a software stack with a code generation engine to build services that work efficiently and seamlessly between C++, Java, Python, PHP, Ruby, Erlang, Perl, Haskell, C#, Cocoa, JavaScript, Node.js, Smalltalk, OCaml and Delphi and other languages.
