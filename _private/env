@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# for compile taobao common libs
+export XXXX_ROOT=/
+
+# my alias
+alias findx='find . ! -name "*svn*" -and ! -name "*_test*" -and ! -name "*cscope*" -and ! -name "*.o" -and ! -name "*.a" | xargs grep --color -nE'
+alias cscopex='find . ! -name "*_test*" -and -name "*.cc" -or -name "*.h" -or -name "*.proto" > cscope.files && cscope -bkq -i cscope.files'
+alias path_of_ftp='printf "wget ftp://%s%s/%s\n" `hostname` `pwd`'
+alias pof='path_of_ftp'
+alias vim='/home/baorenyi/vim_env/bin/vim'
+alias start_http='echo "${HOSTNAME}:8000"; python -m SimpleHTTPServer'
+alias clangf='clang-format -i -style=Google'
+
+# Ubuntu终端下命令行颜色配置
+## Parses out the branch name from .git/HEAD:
+find_git_branch () {
+    local dir=. head
+    until [ "$dir" -ef / ]; do
+        if [ -f "$dir/.git/HEAD" ]; then
+            head=$(< "$dir/.git/HEAD")
+            if [[ $head = ref:\ refs/heads/* ]]; then
+                git_branch="[→ ${head#*/*/}]"
+            elif [[ $head != '' ]]; then
+                git_branch="[→ (detached)]"
+            else
+                git_branch="[→ (unknow)]"
+            fi
+            return
+        fi
+        dir="../$dir"
+    done
+    git_branch=''
+}
+
+# git目录显示当前分支
+
+PROMPT_COMMAND="find_git_branch; $PROMPT_COMMAND"
+# Here is bash color codes you can use
+black=$'\[\e[1;30m\]'
+red=$'\[\e[1;31m\]'
+green=$'\[\e[1;32m\]'
+yellow=$'\[\e[1;33m\]'
+blue=$'\[\e[1;34m\]'
+magenta=$'\[\e[1;35m\]'
+cyan=$'\[\e[1;36m\]'
+white=$'\[\e[1;37m\]'
+normal=$'\[\e[m\]'
+PS1="$magenta\u$white@$green\h$white:$cyan\w$yellow\$git_branch$white$red\$ $normal"
