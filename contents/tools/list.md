@@ -5,3 +5,4 @@
 * [Dash](https://kapeli.com/dash)
 * FlameGraph
 * [Mac本地词典下载](http://download.huzheng.org/zh_CN/)
+* [安装 Syncthing 教程，搭建自己的数据同步网盘](https://blog.curlc.com/archives/333.html)
