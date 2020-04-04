@@ -4,17 +4,17 @@ Git常用
 告诉git你是谁
 -----------
 
-* 初始的git环境push前需要配置你的user.name和user.email
+初始的git环境push前需要配置你的user.name和user.email
 
 ```bash
 $ git config --global user.name "Your Name Here"
 $ git config --global user.email "Your Email Here"
 ```
 
-SSH公私钥
---------
+配置SSH公私钥
+-----------
 
-* 让你摆脱每次输入密码的窘境
+**让你摆脱每次输入密码的窘境**
 
 ```bash
 $ ssh-keygen
@@ -35,8 +35,31 @@ $ cat ~/.ssh/id_rsa.pub
 ```
 将生成的公钥输出拷贝到git服务器上，一般的git服务提供对应add public key的接口
 
+同步fork仓库
+------------
+
+**让你Pull Request更顺畅**
+
+设置本地的upstream到中心的仓库URL
+```bash
+git remote add upstream URL
+```
+然后利用fetch和merge合并upstream的master分支,此时本地的master分支就更新至upstream的master版本
+```bash
+git fetch upstream
+git merge upstream/master
+```
+利用push将本地分支覆盖到git远程分支上
+```bash
+git push origin master:master
+```
+
+
+
 cherry-pick
 -----------
+
+**保证整洁的commit log**
 
 ### Q1:
 
