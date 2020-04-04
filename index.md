@@ -5,8 +5,6 @@ layout: default
 Papers
 ------
 
-- [**The Part-Time Parliament**](/contents/papers/the_part-time_parliament)
-Paxos —— 分布式系统中的一致性算法
 - [**Paxos Made Simple**](/contents/papers/paxos_made_simple)
 Paxos —— 简装版
 - [**raft**](/contents/papers/raft)
@@ -17,6 +15,13 @@ Omid —— 亚马逊的分布式事务实现
 SEDA
 - [**Spanner**](/contents/papers/spanner)
 Spanner —— Google的全球分布式数据库
+
+---
+
+Design
+------
+
+- [**规则整理**](/contents/design/rules)
 
 ---
 
