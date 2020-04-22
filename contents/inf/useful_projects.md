@@ -35,3 +35,9 @@ layout: post
 
 ## [Apache Thrift](http://thrift.apache.org/)
 > The Apache Thrift software framework, for scalable cross-language services development, combines a software stack with a code generation engine to build services that work efficiently and seamlessly between C++, Java, Python, PHP, Ruby, Erlang, Perl, Haskell, C#, Cocoa, JavaScript, Node.js, Smalltalk, OCaml and Delphi and other languages.
+
+基础库
+-----
+## [Google Guava](https://github.com/google/guava/wiki)
+> Google推出的java代码库，其中的Function部分在java8之后不太适合了，可以关注其他的部分。Preconditions，Collections等常用的一些实现可以参考或者使用。
+
