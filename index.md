@@ -48,6 +48,7 @@ Bioinformatics
 - [**概念**](/contents/b13/concepts)
 - [**bam/sam文件格式**](/contents/b13/sam)
 - [**GATK**](/contents/b13/haplotypecaller)
+- [**开源项目**](/contents/b13/projects)
 
 ---
 
