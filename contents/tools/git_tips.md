@@ -11,6 +11,13 @@ $ git config --global user.name "Your Name Here"
 $ git config --global user.email "Your Email Here"
 ```
 
+设置一个好用的编辑器
+-----------------
+
+```bash
+$ git config --global core.editor vim
+```
+
 配置SSH公私钥
 -----------
 
@@ -35,6 +42,41 @@ $ cat ~/.ssh/id_rsa.pub
 ```
 将生成的公钥输出拷贝到git服务器上，一般的git服务提供对应add public key的接口
 
+为不同的git仓库配置独立的SSH公私密钥
+-------------------------------
+
+**通常你公司可能有一个gitlab之类的仓库server，同时你又是一个热衷开源的年轻小伙，github当然必不可少**
+
+```bash
+$ ssh-keygen -t rsa -C 'your_github_mail_address' -f ~/.ssh/github-id-rsa
+$ ssh-keygen -t rsa -C 'your_company_mail_address' -f ~/.ssh/gitlib-id-rsa
+```
+
+编辑你的 ~/.ssh/config 文件，没有的话创建一个
+
+```
+# gitlab
+Host your_company_hostname
+    HostName your_company_hostname
+    User your_name
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/gitlab-id-rsa
+# github
+Host github.com
+    HostName github.com
+    User your_name
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/github-id-rsa
+```
+
+将公钥复制到对应的仓库服务上即可
+
+```bash
+$ cat ~/.ssh/gitlab-id-rsa.pub
+$ cat ~/.ssh/github-id-rsa.pub
+```
+
+
 同步fork仓库
 ------------
 
@@ -53,7 +95,6 @@ git merge upstream/master
 ```bash
 git push origin master:master
 ```
-
 
 
 cherry-pick
@@ -114,3 +155,83 @@ $ vim dir/foo.c  # 手动解决它。
 $ git add dir/foo.c
 $ git commit -c {X1}
 ``` 
+
+---
+常见的场景
+======
+为开源库贡献代码，迟迟无法merge，反复修改，提交历史呈现如下状况
+
+* fork 开源仓库到个人仓库，配置同步fork仓库（配置方法参考上面步骤），完成这些操作后各仓库log如下
+
+```git
+remotes/upstream/master  --v1
+remotes/origin/your_dev  --v1
+your_dev                 --v1
+```
+
+* 本地完成了部分修改commit后
+
+```git
+remotes/upstream/master  --v1
+remotes/origin/your_dev  --v1
+your_dev                 --v1--v2
+```
+
+* 将本地的commit push到 remotes/origin/your_dev 分支，向forked项目master发起PR
+
+```git
+remotes/upstream/master  --v1
+remotes/origin/your_dev  --v1--v2
+your_dev                 --v1--v2
+```
+
+* forked项目master有其他人开发的PR被merge了
+
+```git
+remotes/upstream/master  --v1------v3
+remotes/origin/your_dev  --v1--v2
+your_dev                 --v1--v2
+```
+
+* 收到commiter小伙伴的评论，需要修改PR，这里就需要一通骚操作
+  
+  1. 用git reset --soft v2 将your_dev分支指针指向v1, 这里注意--soft必不可少
+  2. 本地做一次新的commit,commit之后效果如下
+
+```git
+remotes/upstream/master  --v1------v3
+remotes/origin/your_dev  --v1--v2
+your_dev                 --v1----------v4
+```  
+
+然后利用fetch和merge合并upstream的master分支,此时本地的your_dev分支就更新至upstream的master版本
+```bash
+git fetch upstream
+git merge upstream/master
+```
+
+可能会冲突，解决冲突，完成merge，commit后。此时，版本线如下
+
+```git
+remotes/upstream/master  --v1------v3
+remotes/origin/your_dev  --v1--v2
+your_dev                 --v1------v3--v4--v5
+```  
+
+对v4,v5作一次rebase操作 ```git rebase -i HEAD~1```
+
+```git
+remotes/upstream/master  --v1------v3
+remotes/origin/your_dev  --v1--v2
+your_dev                 --v1------v3--v6
+```
+
+强制push本地your_dev到remotes/origin/your_dev
+
+```git
+remotes/upstream/master  --v1------v3
+remotes/origin/your_dev  --v1------v3--v6
+your_dev                 --v1------v3--v6
+```
+
+此时PR，会自动更新成最后一次提交的结果。并且之显示最后一次提交
