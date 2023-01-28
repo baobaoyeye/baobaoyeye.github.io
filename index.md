@@ -83,3 +83,8 @@ Tools
 - [**Other Tools List**](/contents/tools/list)
 
 ---
+
+Others
+------
+
+* 大脑冗余设计
