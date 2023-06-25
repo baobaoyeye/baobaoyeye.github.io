@@ -1,2 +1,0 @@
-* [GATB](https://gatb.inria.fr/gatb-global-architecture/)
-  The Genome Analysis Toolbox with de-Bruijn graph (GATB) provides a set of highly efficient algorithms to analyse NGS data sets. These methods enable the analysis of data sets of any size on multi-core desktop computers, including very huge amount of reads data coming from any kind of organisms such as bacteria, plants, animals and even complex samples (e.g. metagenomes).
