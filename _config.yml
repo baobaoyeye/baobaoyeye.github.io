@@ -12,19 +12,19 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 remote_theme             : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "air" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "contrast" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "zh-CN"
 title                    : "浮生須臾杂记"
 title_separator          : "-"
-subtitle                 : # site tagline that appears below site title in masthead
+subtitle                 : "偷得浮生须臾闲，闲来杂记骗神仙"
 name                     : "baobaoyeye"
 description              : "偷得浮生须臾闲，闲来杂记骗神仙"
 url                      : "https://baobaoyeye.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "baobaoyeye/baobaoyeye.github.io"
-teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
+teaser                   : "/assets/images/500x300.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
@@ -81,7 +81,7 @@ baidu_site_verification  :
 
 # Social Sharing
 twitter:
-  username               :
+  username               : "bbyy552"
 facebook:
   username               :
   app_id                 :
@@ -105,20 +105,17 @@ analytics:
 # Site Author
 author:
   name             : "baobaoyeye"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : "/assets/images/bio-photo.png"
   bio              : "架构师"
   location         : "中国·北京·昌平"
   email            : "bao.renyi@gmail.com"
   links:
-    - label: "Email"
-      icon: "fas fa-fw fa-envelope-square"
-      url: "mailto:bao.renyi@gmail.com"
-    - label: "Website"
+    - label: "知乎"
       icon: "fas fa-fw fa-link"
-      # url: "https://your-website.com"
+      url: "https://www.zhihu.com/people/baobaoyeye"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      # url: "https://twitter.com/"
+      url: "https://twitter.com/bbyy552"
     - label: "Facebook"
       icon: "fab fa-fw fa-facebook-square"
       # url: "https://facebook.com/"
@@ -276,7 +273,6 @@ compress_html:
   ignore:
     envs: development
 
-
 # Defaults
 defaults:
   # _posts
@@ -290,3 +286,10 @@ defaults:
       comments: # true
       share: true
       related: true
+  # _pages
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true
